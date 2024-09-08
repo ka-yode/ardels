@@ -1,0 +1,75 @@
+"use client";
+import { useForm } from "react-hook-form";
+import FormWrapper from "../components/formwrapper";
+import { Form } from "@repo/ui/form";
+import { resetPasswordInput, resetPasswordSchema } from "./components";
+import FillEmail from "./components/FillEmail";
+import { useMultiStep } from "@repo/ui/hooks";
+import { Button } from "@repo/ui/button";
+import VerifyResetEmail from "./components/verifyResetEmail";
+import ResetPasswordInputs from "./components/ResetPassword";
+import { ChevronLeft } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+function ResetPassword() {
+  const form = useForm<resetPasswordInput>({
+    resolver: zodResolver(resetPasswordSchema),
+    defaultValues: { email: "", otp: "", password: "", confirmPassword: "" },
+  });
+  const { step, nextStep, prevStep, currentStep } = useMultiStep([
+    <FillEmail key="0" />,
+    <VerifyResetEmail key="1" />,
+    <ResetPasswordInputs key="2" />,
+  ]);
+  type resetPasswordKeys = keyof resetPasswordInput;
+  const validateFields: Record<number, resetPasswordKeys[]> = {
+    0: ["email"],
+    1: ["otp"],
+    2: ["password", "confirmPassword"],
+  };
+  console.log(currentStep);
+  const handleformNext = async () => {
+    const fieldsValid = await form.trigger(validateFields[currentStep], {
+      shouldFocus: true,
+    });
+    if (!fieldsValid) return;
+    nextStep();
+  };
+  return (
+    <div className="flex items-center justify-between p-4 lg:h-screen lg:p-8">
+      <div className="hidden text-white lg:block">
+        <p className="mb-4 line-clamp-2 w-1/2 text-3xl font-semibold">
+          Simplify Employee Management with ARDELS
+        </p>
+        <p className="line-clamp-3 w-3/5 text-white/60">
+          Are you tired of the hassle of managing employee verification? Look no
+          further! Ardels is here to streamline your entire process.
+        </p>
+      </div>
+      <FormWrapper>
+        {currentStep > 0 ||
+          (currentStep == 2 && (
+            <Button
+              leftIcon={<ChevronLeft />}
+              variant="ghost"
+              className="self-start"
+              onClick={prevStep}
+            >
+              Back
+            </Button>
+          ))}
+        <Form {...form}>{step}</Form>
+        <Button
+          variant="action"
+          type="button"
+          className="w-full"
+          onClick={handleformNext}
+        >
+          {currentStep === 0 ? "Check Email" : "Submit"}
+        </Button>
+      </FormWrapper>
+    </div>
+  );
+}
+
+export default ResetPassword;

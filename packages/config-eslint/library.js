@@ -1,37 +1,44 @@
-const { resolve } = require("node:path");
-
-const project = resolve(process.cwd(), "tsconfig.json");
-
-/*
- * This is a custom ESLint configuration for use with
- * typescript packages.
- *
- * This config extends the Vercel Engineering Style Guide.
- * For more information, see https://github.com/vercel/style-guide
- *
- */
-
-module.exports = {
+/** @type {import("eslint").Linter.Config} */
+const config = {
   extends: [
-    "@vercel/style-guide/eslint/node",
-    "@vercel/style-guide/eslint/typescript",
-  ].map(require.resolve),
-  parserOptions: {
-    project,
+    "turbo",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended-type-checked",
+    "plugin:@typescript-eslint/stylistic-type-checked",
+  ],
+  env: {
+    es2022: true,
+    node: true,
   },
-  globals: {
-    React: true,
-    JSX: true,
+  parser: "@typescript-eslint/parser",
+  parserOptions: { project: true },
+  plugins: ["@typescript-eslint", "import"],
+  rules: {
+    "turbo/no-undeclared-env-vars": "off",
+    "no-console": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+    ],
+    "@typescript-eslint/consistent-type-imports": [
+      "warn",
+      { prefer: "type-imports", fixStyle: "separate-type-imports" },
+    ],
+    "@typescript-eslint/no-misused-promises": [
+      2,
+      { checksVoidReturn: { attributes: false } },
+    ],
+    "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
   },
-  settings: {
-    "import/resolver": {
-      typescript: {
-        project,
-      },
-      node: {
-        extensions: [".mjs", ".js", ".jsx", ".ts", ".tsx"],
-      },
-    },
-  },
-  ignorePatterns: ["node_modules/", "dist/"],
+  ignorePatterns: [
+    "**/*.config.js",
+    "**/*.config.cjs",
+    "**/.eslintrc.cjs",
+    ".next",
+    "dist",
+    "pnpm-lock.yaml",
+  ],
+  reportUnusedDisableDirectives: true,
 };
+
+module.exports = config;
