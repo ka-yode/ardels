@@ -3,6 +3,6 @@
     "jsx": "react"
   },
   "extends": "@repo/typescript-config/react-library.json",
-  "include": ["."],
+  "include": ["*.ts", "src"],
   "exclude": ["dist", "build", "node_modules"]
 }

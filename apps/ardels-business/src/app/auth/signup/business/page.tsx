@@ -62,7 +62,6 @@ export default function BusinessSignUp() {
         userId: data.data.userId,
         email: data.data.email,
       });
-      nextStep();
     },
   });
 
@@ -144,7 +143,7 @@ export default function BusinessSignUp() {
         </div>
       </div>
       <FormWrapper className="justify-between overflow-auto lg:!py-5">
-        {currentStep > 0 && (
+        {/* {currentStep > 0 && (
           <Button
             leftIcon={<ChevronLeft />}
             variant="ghost"
@@ -153,7 +152,7 @@ export default function BusinessSignUp() {
           >
             Back
           </Button>
-        )}
+        )} */}
         <Form {...form}>{step}</Form>
         <div className="flex w-full flex-col gap-10">
           <div className="flex w-full flex-col gap-6">

@@ -69,6 +69,7 @@ export const resetpasswordSchema = z.object({
   password: z.string().min(8, "Password is too short "),
   confirmPassword: z.string().min(8, "Password is too short "),
 });
+
 export const resetPassword = async ({
   ...values
 }: z.infer<typeof resetpasswordSchema>) => {
