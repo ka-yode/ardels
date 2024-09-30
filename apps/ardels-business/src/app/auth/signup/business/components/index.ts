@@ -4,9 +4,9 @@ export const createEmployeeSchema = z.object({
   name: z.string().min(6, "This name is not long enough"),
   phoneNumber: z
     .string()
-    .min(11, "This phone number is too short")
-    .max(11, "this phone number is too long"),
-  role: z.string().min(6, "This name is not long enough"),
+    .min(14, "This phone number is too short")
+    .max(14, "this phone number is too long"),
+  userRole: z.string().min(6, "This name is not long enough"),
 });
 
 export const createBusinessSchema = z
@@ -18,7 +18,7 @@ export const createBusinessSchema = z
       .min(8, "Password must be at least 8 characters long"),
     otp: z.string().max(6).min(6),
     companyName: z.string(),
-    conpanyCAC: z.string(),
+    companyCAC: z.string(),
     companyPhoneNumber: z
       .string()
       .min(11, "This phone number isn't complete")

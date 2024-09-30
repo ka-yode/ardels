@@ -9,7 +9,8 @@
     "zod": "^3.23.8"
   },
   "exports": {
-    "./auth": "./src/auth.ts"
+    "./auth": "./src/auth.ts",
+    "./manageUser": "./src/manageUser.ts"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
