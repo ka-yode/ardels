@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "@repo/ui/use-toast";
 import { useUser } from "~/utils/useUser";
 
-export const loginSchema = z.object({
+const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8, "Password is too short"),
 });
