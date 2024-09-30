@@ -4,7 +4,8 @@ import { FormControl, FormField } from "@repo/ui/form";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@repo/ui/otp";
 import { useCountdown } from "@repo/ui/hooks";
 import { Button } from "@repo/ui/button";
-function VerifyEmail() {
+import { MouseEventHandler } from "react";
+function VerifyEmail({ resendAction }: { resendAction: () => void }) {
   const form = useFormContext<createBusinessInput>();
   const companyEmail = form.getValues("email");
 
@@ -38,7 +39,9 @@ function VerifyEmail() {
           )}
         />
         {counterDone ? (
-          <Button variant="link">Resend OTP</Button>
+          <Button variant="link" onClick={resendAction}>
+            Resend OTP
+          </Button>
         ) : (
           <p className="text-sm text-black/50">
             Resend code in:{" "}

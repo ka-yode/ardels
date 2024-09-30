@@ -1,11 +1,46 @@
+"use client";
 import { Input } from "@repo/ui/input";
 import FormWrapper from "../components/formwrapper";
 import Link from "next/link";
 import { Button } from "@repo/ui/button";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { login } from "@repo/api/auth";
+import { Form, FormControl, FormField, FormItem } from "@repo/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { toast } from "@repo/ui/use-toast";
+import { useUser } from "~/utils/useUser";
 
+export const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8, "Password is too short"),
+});
+type loginInputs = z.infer<typeof loginSchema>;
 function LoginPage() {
+  useUser();
+  const form = useForm<loginInputs>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: "", password: "" },
+  });
+  const router = useRouter();
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: login,
+    onSuccess: (data) => {
+      toast({ description: "Successfully logged in", variant: "success" });
+      router.replace("/dashboard");
+    },
+    onError: (error) => {
+      toast({ description: error.message, variant: "destructive" });
+    },
+  });
+
+  const handleLogin = async () => {
+    await mutateAsync({ ...form.getValues() });
+  };
   return (
-    <div className="flex h-auto items-center justify-center p-4 lg:h-screen lg:justify-between lg:p-8">
+    <div className="flex h-full items-center justify-center p-4 lg:justify-between lg:p-8">
       <section className="hidden w-1/3 text-white lg:block">
         <p className="text-2xl font-bold">
           Simplify Employee Management with ARDELS
@@ -23,18 +58,45 @@ function LoginPage() {
             Log in to your account
           </p>
         </div>
-        <div className="flex w-full flex-col gap-6">
-          <Input placeholder="Email" />
-          <Input placeholder="Password" />
-        </div>
-        <Link
-          className="mb-5 self-end text-sm font-medium"
-          href="reset-password"
-        >
-          Forgot Password?
-        </Link>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleLogin)}
+            className="w-full flex flex-col gap-4"
+          >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Email" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input type="password" placeholder="Password" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+            <Link
+              className="mb-5 self-end text-sm font-medium"
+              href="reset-password"
+            >
+              Forgot Password?
+            </Link>
+            <Button variant="action" type="submit" loading={isPending}>
+              Login
+            </Button>
+          </form>
+        </Form>
         <div className="flex w-full flex-col gap-2 text-center">
-          <Button variant="action">Login</Button>
           <div className="flex items-center justify-center gap-2 text-sm">
             <p className="text-black/50">Don&apos;t have an account?</p>
             <Link href="signup" className="font-medium">

@@ -10,9 +10,28 @@ export const CreateCompanyProfileSchema = z.object({
   companyAddress: z.string().min(20, "Address is too short"),
 });
 
-export const createcompanyPRofile = async ({
+export const createcompanyProfile = async ({
   ...values
 }: z.infer<typeof CreateCompanyProfileSchema>) => {
-  const data = await f("POST", "createcompanyPRofile", { ...values });
+  const data = await f("POST", "create-company-profile", { ...values });
+  return data;
+};
+
+export const createEmployeeSchema = z.object({
+  name: z.string().min(6, "This name is not long enough"),
+  phoneNumber: z
+    .string()
+    .min(14, "This phone number is too short")
+    .max(14, "this phone number is too long"),
+  userRole: z.string().min(6, "This name is not long enough"),
+});
+
+export const sendEmployeeInviteSchema = z.array(createEmployeeSchema);
+
+export const sendEmployeeInvite = async ({
+  ...value
+}: z.infer<typeof sendEmployeeInviteSchema>) => {
+  console.log(value);
+  const data = await f("POST", "send-invite", { employees: value.values });
   return data;
 };

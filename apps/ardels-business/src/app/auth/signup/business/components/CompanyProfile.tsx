@@ -36,7 +36,7 @@ function CompanyProfile() {
         />
         <FormField
           control={form.control}
-          name="conpanyCAC"
+          name="companyCAC"
           render={({ field }) => (
             <FormItem>
               <FormControl>

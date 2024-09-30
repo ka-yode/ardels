@@ -1,50 +1,67 @@
+"use client";
 import { cn } from "@repo/ui/utils";
 import { Button, buttonVariants } from "@repo/ui/button";
-import { CircleSlash, Users } from "lucide-react";
+import { CircleSlash, CircleX, Users } from "lucide-react";
 import { title } from "process";
 
 import EmployeeTable, { EmployeeDataProps } from "./components/employeeTable";
 import { VerificationStatus } from "@repo/ui/types";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { getMe } from "@repo/api/auth";
+import { useUser } from "~/utils/useUser";
+import { Suspense } from "react";
 
 export default function DashboardPage() {
+  const { data, isLoading, isError } = useUser();
   const employeeData: EmployeeDataProps[] = [
-    {
-      name: "Sunday Moses",
-      phoneNumber: "08104359615",
-      jobTitle: "Kitchen Assistant",
-      status: VerificationStatus.FAILED_ADDRESS,
-    },
-    {
-      name: "Sunday Moses",
-      phoneNumber: "08104359615",
-      jobTitle: "Kitchen Assistant",
-      status: VerificationStatus.IN_VERIFICATION,
-    },
-    {
-      name: "Sunday Moses",
-      phoneNumber: "08104359615",
-      jobTitle: "Kitchen Assistant",
-      status: VerificationStatus.FAILED_GUARANTOR,
-    },
-    {
-      name: "Sunday Moses",
-      phoneNumber: "08104359615",
-      jobTitle: "Kitchen Assistant",
-      status: VerificationStatus.NOT_RESPONDED,
-    },
-    {
-      name: "Sunday Moses",
-      phoneNumber: "08104359615",
-      jobTitle: "Kitchen Assistant",
-      status: VerificationStatus.VERIFIED,
-    },
+    // {
+    //   name: "Sunday Moses",
+    //   phoneNumber: "08104359615",
+    //   jobTitle: "Kitchen Assistant",
+    //   status: VerificationStatus.FAILED_ADDRESS,
+    // },
+    // {
+    //   name: "Sunday Moses",
+    //   phoneNumber: "08104359615",
+    //   jobTitle: "Kitchen Assistant",
+    //   status: VerificationStatus.IN_VERIFICATION,
+    // },
+    // {
+    //   name: "Sunday Moses",
+    //   phoneNumber: "08104359615",
+    //   jobTitle: "Kitchen Assistant",
+    //   status: VerificationStatus.FAILED_GUARANTOR,
+    // },
+    // {
+    //   name: "Sunday Moses",
+    //   phoneNumber: "08104359615",
+    //   jobTitle: "Kitchen Assistant",
+    //   status: VerificationStatus.NOT_RESPONDED,
+    // },
+    // {
+    //   name: "Sunday Moses",
+    //   phoneNumber: "08104359615",
+    //   jobTitle: "Kitchen Assistant",
+    //   status: VerificationStatus.VERIFIED,
+    // },
   ];
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center h-full text-red-600 justify-center">
+        <CircleX size={100} />
+        <p>Problem loading organization Information</p>
+      </div>
+    );
+  }
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
   return (
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-4 lg:flex-row">
         <div className="flex flex-col gap-6">
-          <p className="text-3xl font-semibold">Welcome 44bukaz</p>
+          <p className="text-3xl font-semibold">Welcome {data?.email}</p>
           <p className="text-neutral-400">
             Your One-Stop Solution for Employee Verification and Payment
             Management
@@ -68,13 +85,13 @@ export default function DashboardPage() {
           <DashboardDetails
             icon={<Users />}
             title="Employee"
-            amount={50}
+            amount={data?.employees.length ?? 0}
             className="bg-green-400/40 text-green-400"
           />
           <DashboardDetails
             icon={<CircleSlash />}
             title="Removed Employee"
-            amount={12}
+            amount={data?.employees.length ?? 0}
             className="bg-warning-foreground text-warning"
           />
         </div>
@@ -89,7 +106,7 @@ export default function DashboardPage() {
             View All
           </Link>
         </div>
-        <EmployeeTable employeesList={employeeData} />
+        <EmployeeTable />
       </div>
     </div>
   );

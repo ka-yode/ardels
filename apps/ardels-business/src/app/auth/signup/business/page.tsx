@@ -20,9 +20,12 @@ import {
   createBusiness,
   createBusinessRegisterSchema,
   sendOTP,
+  verifyOtp,
 } from "@repo/api/auth";
+import { createcompanyProfile, sendEmployeeInvite } from "@repo/api/manageUser";
 import { toast } from "@repo/ui/use-toast";
 import { z } from "zod";
+import { cookies } from "next/headers";
 
 export default function BusinessSignUp() {
   const router = useRouter();
@@ -46,25 +49,37 @@ export default function BusinessSignUp() {
     },
   });
 
-  const { step, currentStep, nextStep, prevStep, jumpToStep } = useMultiStep([
-    <CreateAccount key="1" />,
-    <VerifyEmail key="2" />,
-    <CompanyProfile key="3" />,
-    <AddEmployees key="4" />,
-  ]);
-
-  const { mutateAsync: sendOTPAsync } = useMutation({ mutationFn: sendOTP });
-  const { mutateAsync: createBusinessAsync } = useMutation({
-    mutationFn: createBusiness,
-    onSuccess: async (data) => {
-      console.log(data.data);
-      await sendOTPAsync({
-        userId: data.data.userId,
-        email: data.data.email,
-      });
-    },
+  const { mutateAsync: createBusinessAsync, data: userProfileData } =
+    useMutation({
+      mutationFn: createBusiness,
+      onSuccess: async (data) => {
+        console.log(data.data);
+      },
+    });
+  const { mutateAsync: verifyOtpAsync, isError: verifyOTPError } = useMutation({
+    mutationFn: verifyOtp,
+  });
+  const { mutateAsync: createCompanyProfile, isError } = useMutation({
+    mutationFn: createcompanyProfile,
   });
 
+  const { mutateAsync: sendInviteAsync, isSuccess: inviteSentSuccessfully } =
+    useMutation({
+      mutationFn: sendEmployeeInvite,
+    });
+
+  const { mutateAsync: resendOTPAsync } = useMutation({
+    mutationFn: sendOTP,
+    onSuccess: () => {
+      toast({ description: "OTP resent successfully", variant: "success" });
+    },
+  });
+  const resendOTPHandler = async () => {
+    if (userProfileData) {
+      const email = form.getValues("email");
+      await resendOTPAsync({ userId: userProfileData.data.userId, email });
+    }
+  };
   const createBusinessHandler = async (
     data: z.infer<typeof createBusinessRegisterSchema>
   ) => {
@@ -78,12 +93,19 @@ export default function BusinessSignUp() {
       "companyName",
       "companyAddress",
       "companyPhoneNumber",
-      "conpanyCAC",
+      "companyCAC",
       "state",
       "companyEmail",
     ],
     3: ["employees"],
   };
+
+  const { step, currentStep, nextStep, prevStep, jumpToStep } = useMultiStep([
+    <CreateAccount key="1" />,
+    <VerifyEmail key="2" resendAction={resendOTPHandler} />,
+    <CompanyProfile key="3" />,
+    <AddEmployees key="4" />,
+  ]);
 
   const handleFormNext = async () => {
     const fieldsValid = await form.trigger(validateFields[currentStep], {
@@ -106,8 +128,32 @@ export default function BusinessSignUp() {
       }
       await createBusinessHandler({ email, password, confirmPassword });
     }
+    if (currentStep === 1 && userProfileData) {
+      const userId = userProfileData.data.userId;
+      const otp = form.getValues("otp");
+      await verifyOtpAsync({ userId, otp });
+      if (verifyOTPError) {
+        toast({ description: "Incorrect OTP", variant: "destructive" });
+        return;
+      }
+    }
+    if (currentStep == 2) {
+      const values = form.getValues();
+      console.log(values);
+      await createCompanyProfile({
+        companyName: values.companyName,
+        companyPhoneNumber: values.companyPhoneNumber,
+        companyEmail: values.companyEmail,
+        companyAddress: values.companyAddress,
+        cacNumber: values.companyCAC,
+        state: values.state,
+      });
+      if (isError) return;
+    }
     if (currentStep === 3) {
-      router.replace("/dashboard");
+      const employees = form.getValues("employees");
+      await sendInviteAsync(employees);
+      if (inviteSentSuccessfully) router.replace("/dashboard");
     }
     if (!fieldsValid) return;
     nextStep();
@@ -143,16 +189,11 @@ export default function BusinessSignUp() {
         </div>
       </div>
       <FormWrapper className="justify-between overflow-auto lg:!py-5">
-        {/* {currentStep > 0 && (
-          <Button
-            leftIcon={<ChevronLeft />}
-            variant="ghost"
-            className="self-start"
-            onClick={prevStep}
-          >
-            Back
-          </Button>
-        )} */}
+        {currentStep === 3 && (
+          <Link href="dashboard" className="text-green-500">
+            Skip
+          </Link>
+        )}
         <Form {...form}>{step}</Form>
         <div className="flex w-full flex-col gap-10">
           <div className="flex w-full flex-col gap-6">

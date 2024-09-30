@@ -41,11 +41,21 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   leftIcon?: React.ReactNode;
+  loading?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, variant, size, asChild = false, children, leftIcon, ...props },
+    {
+      className,
+      variant,
+      size,
+      asChild = false,
+      children,
+      leftIcon,
+      loading = false,
+      ...props
+    },
     ref
   ) => {
     const Comp = asChild ? Slot : "button";
@@ -55,9 +65,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
-        <span className="flex w-auto items-center justify-between gap-2">
-          {leftIcon} {children}
-        </span>
+        {loading ? (
+          <div className="size-10 p-4 border-3 border-white border-r-0 animate-spin duration-700"></div>
+        ) : (
+          <span className="flex w-auto items-center justify-between gap-2">
+            {leftIcon} {children}
+          </span>
+        )}
       </Comp>
     );
   }

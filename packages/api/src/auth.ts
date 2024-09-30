@@ -13,6 +13,10 @@ export const createBusinessRegisterSchema = z
     path: ["confirmPassword", "password"],
   });
 
+export type createBusinessRegisterInput = z.infer<
+  typeof createBusinessRegisterSchema
+>;
+
 export const createBusiness = async ({
   ...values
 }: z.infer<typeof createBusinessRegisterSchema>) => {
@@ -40,6 +44,23 @@ export const logOut = async () => {
   const data = await f("POST", "logout");
   return data;
 };
+
+export const verifyOtpSchema = z.object({
+  userId: z.string(),
+  otp: z
+    .string()
+    .min(6, "This otp is too short")
+    .max(6, "otp can only be 6 numbers"),
+});
+
+//verify otp
+export const verifyOtp = async ({
+  ...values
+}: z.infer<typeof verifyOtpSchema>) => {
+  const data = await f("POST", "verifyotp", { ...values });
+  return data;
+};
+
 //send otp
 export const sendOTPSchema = z.object({
   userId: z.string(),
@@ -83,5 +104,17 @@ export const loginStatus = async () => {
 };
 //get user
 export const getMe = async () => {
-  const data = await f("GET", "getuser");
+  const data = (await f("GET", "getuser")) as {
+    user: {
+      _id: string;
+      email: string;
+      verified: boolean;
+      employees: [];
+      role: "company" | "employee";
+      createdAt: string;
+      updatedAt: string;
+      __v: number;
+    };
+  };
+  return data;
 };

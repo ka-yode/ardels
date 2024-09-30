@@ -12,6 +12,7 @@ export const f = async (
     const response = await fetch(`${Base_URL}/${point}`, {
       method,
       body: methodsWithBody.includes(method) ? JSON.stringify(body) : undefined,
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
     });
     if (response.ok) {
