@@ -87,7 +87,7 @@ function LoginPage() {
             />
             <Link
               className="mb-5 self-end text-sm font-medium"
-              href="reset-password"
+              href="forgot-password"
             >
               Forgot Password?
             </Link>
