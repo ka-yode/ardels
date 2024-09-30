@@ -7,12 +7,12 @@ import { Button } from "@repo/ui/button";
 import { Plus } from "lucide-react";
 
 function AddEmployees() {
-  const newEmployee = { name: "", phoneNumber: "", role: "" };
+  const newEmployee = { name: "", phoneNumber: "", userRole: "" };
   const form = useFormContext<createBusinessInput>();
 
   // form.setValue("employees", [
-  //   { name: "", phoneNumber: "", role: "" },
-  //   { name: "", phoneNumber: "", role: "" },
+  //   { name: "", phoneNumber: "", userRole: "" },
+  //   { name: "", phoneNumber: "", userRole: "" },
   // ]);
   let employees = form.getValues("employees");
 
@@ -63,7 +63,7 @@ function AddEmployees() {
                 )}
               />
               <FormField
-                name={`employees.${index}.role`}
+                name={`employees.${index}.userRole`}
                 control={form.control}
                 render={({ field }) => (
                   <FormItem className="w-full">
