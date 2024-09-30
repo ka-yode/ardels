@@ -43,8 +43,8 @@ export default function BusinessSignUp() {
       password: "",
       confirmedPassWord: "",
       employees: [
-        { name: "", phoneNumber: "", role: "" },
-        { name: "", phoneNumber: "", role: "" },
+        { name: "", phoneNumber: "", userRole: "" },
+        { name: "", phoneNumber: "", userRole: "" },
       ],
     },
   });
