@@ -18,14 +18,15 @@ import { VerificationStatus } from "@repo/ui/types";
 import { CircleSlash, Ellipsis, LinkIcon, User } from "lucide-react";
 import Link from "next/link";
 import AddEmployeesDialog from "../employees/components/addEmployeesDialog";
+import { employeeShape } from "@repo/api/manageEmployee";
 
 export interface EmployeeDataProps {
   name: string;
   phoneNumber: string;
   jobTitle: string;
-  status: VerificationStatus;
+  status: "pending" | "success";
 }
-type EmployeeListProps = { employeesList?: EmployeeDataProps[] };
+type EmployeeListProps = { employeesList?: employeeShape[] };
 function EmployeeTable({ employeesList }: EmployeeListProps) {
   return (
     <div>
@@ -45,7 +46,7 @@ function EmployeeTable({ employeesList }: EmployeeListProps) {
               <TableRow key={index}>
                 <TableCell>{employee.name}</TableCell>
                 <TableCell>{employee.phoneNumber}</TableCell>
-                <TableCell>{employee.jobTitle}</TableCell>
+                <TableCell>{employee.role}</TableCell>
                 <TableCell>
                   <StatusBadge status={employee.status} />
                 </TableCell>
@@ -57,7 +58,7 @@ function EmployeeTable({ employeesList }: EmployeeListProps) {
                     <DropdownMenuContent>
                       <DropdownMenuItem>
                         <Link
-                          href="/dashboard/employees/1"
+                          href={`/dashboard/employees/${employee._id}`}
                           className="flex items-center gap-2"
                         >
                           <User size={16} />

@@ -18,7 +18,7 @@ export const createBusinessSchema = z
       .min(8, "Password must be at least 8 characters long"),
     otp: z.string().max(6).min(6),
     companyName: z.string(),
-    companyCAC: z.string(),
+    cacNumber: z.string(),
     companyPhoneNumber: z
       .string()
       .min(11, "This phone number isn't complete")

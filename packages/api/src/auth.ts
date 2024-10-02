@@ -114,6 +114,18 @@ export const getMe = async () => {
       createdAt: string;
       updatedAt: string;
       __v: number;
+      companyProfile: {
+        _id: string;
+        companyName: string;
+        cacNumber: string;
+        companyPhoneNumber: string;
+        companyEmail: string;
+        state: string;
+        companyAddress: string;
+        CAC_status: string;
+        dateVerified: string;
+        __v: 0;
+      };
     };
   };
   return data;

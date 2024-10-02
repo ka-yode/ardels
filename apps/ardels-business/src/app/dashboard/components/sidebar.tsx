@@ -8,16 +8,26 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { cn } from "@repo/ui/utils";
 import { Button } from "@repo/ui/button";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { logOut } from "@repo/api/auth";
 
 interface SideBarProps {
   className: string;
 }
 
 export default function SideBar({ className }: Partial<SideBarProps>) {
+  const router = useRouter();
+  const { mutateAsync: logoutAsync } = useMutation({
+    mutationFn: logOut,
+    onSuccess: () => router.replace("/auth/login"),
+  });
+  const handleLogoutAsync = async () => {
+    await logoutAsync();
+  };
   return (
     <section
       className={cn(
@@ -36,6 +46,7 @@ export default function SideBar({ className }: Partial<SideBarProps>) {
         leftIcon={<LogOut />}
         className="justify-start"
         variant="destructiveOutline"
+        onClick={handleLogoutAsync}
       >
         Log Out
       </Button>

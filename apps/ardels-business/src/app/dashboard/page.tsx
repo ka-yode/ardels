@@ -8,7 +8,7 @@ import EmployeeTable, { EmployeeDataProps } from "./components/employeeTable";
 import { VerificationStatus } from "@repo/ui/types";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { getMe } from "@repo/api/auth";
+import { getEmployeesByCompany } from "@repo/api/manageEmployee";
 import { useUser } from "~/utils/useUser";
 import { Suspense } from "react";
 
@@ -46,6 +46,11 @@ export default function DashboardPage() {
     //   status: VerificationStatus.VERIFIED,
     // },
   ];
+  const { data: employeesData } = useQuery({
+    queryFn: getEmployeesByCompany,
+    queryKey: ["get_employees"],
+  });
+  console.log(employeesData);
   if (isError) {
     return (
       <div className="flex flex-col items-center h-full text-red-600 justify-center">
@@ -61,7 +66,9 @@ export default function DashboardPage() {
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-4 lg:flex-row">
         <div className="flex flex-col gap-6">
-          <p className="text-3xl font-semibold">Welcome {data?.email}</p>
+          <p className="text-3xl font-semibold">
+            Welcome {data?.companyProfile.companyName}
+          </p>
           <p className="text-neutral-400">
             Your One-Stop Solution for Employee Verification and Payment
             Management
@@ -85,13 +92,13 @@ export default function DashboardPage() {
           <DashboardDetails
             icon={<Users />}
             title="Employee"
-            amount={data?.employees.length ?? 0}
+            amount={employeesData?.length ?? 0}
             className="bg-green-400/40 text-green-400"
           />
           <DashboardDetails
             icon={<CircleSlash />}
             title="Removed Employee"
-            amount={data?.employees.length ?? 0}
+            amount={employeesData?.length ?? 0}
             className="bg-warning-foreground text-warning"
           />
         </div>
@@ -106,7 +113,7 @@ export default function DashboardPage() {
             View All
           </Link>
         </div>
-        <EmployeeTable />
+        <EmployeeTable employeesList={employeesData} />
       </div>
     </div>
   );

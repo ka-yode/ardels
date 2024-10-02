@@ -27,7 +27,7 @@ function LoginPage() {
   const router = useRouter();
   const { mutateAsync, isPending } = useMutation({
     mutationFn: login,
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({ description: "Successfully logged in", variant: "success" });
       router.replace("/dashboard");
     },

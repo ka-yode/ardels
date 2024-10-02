@@ -1,3 +1,4 @@
+"use client";
 import { getMe } from "@repo/api/auth";
 import { toast } from "@repo/ui/use-toast";
 import { useQuery } from "@tanstack/react-query";
@@ -18,11 +19,9 @@ export const useUser = () => {
       toast({ description: error.message, variant: "destructive" });
     router.replace("/auth/login");
   }
-  if (isSuccess) {
+  if (isSuccess && isAuthPath) {
     toast({ description: "Succesfully logged in", variant: "success" });
-    if (isAuthPath) {
-      router.replace("/dashboard");
-    }
+    router.replace("/dashboard");
   }
   return {
     data: data?.user,

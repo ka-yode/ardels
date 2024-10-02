@@ -31,7 +31,8 @@ export const sendEmployeeInviteSchema = z.array(createEmployeeSchema);
 export const sendEmployeeInvite = async ({
   ...value
 }: z.infer<typeof sendEmployeeInviteSchema>) => {
-  console.log(value);
-  const data = await f("POST", "send-invite", { employees: value.values });
+  const employees = [...Object.values(value)];
+  console.log(employees);
+  const data = await f("POST", "send-invite", { employees });
   return data;
 };

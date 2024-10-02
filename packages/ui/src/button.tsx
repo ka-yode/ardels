@@ -66,7 +66,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading ? (
-          <div className="size-10 p-4 border-3 border-white border-r-0 animate-spin duration-700"></div>
+          <div className="size-5 min-h-5 p-4 border-3 border-white border-r-0 animate-spin duration-700"></div>
         ) : (
           <span className="flex w-auto items-center justify-between gap-2">
             {leftIcon} {children}
