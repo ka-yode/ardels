@@ -93,7 +93,7 @@ export default function BusinessSignUp() {
       "companyName",
       "companyAddress",
       "companyPhoneNumber",
-      "companyCAC",
+      "cacNumber",
       "state",
       "companyEmail",
     ],
@@ -145,7 +145,7 @@ export default function BusinessSignUp() {
         companyPhoneNumber: values.companyPhoneNumber,
         companyEmail: values.companyEmail,
         companyAddress: values.companyAddress,
-        cacNumber: values.companyCAC,
+        cacNumber: values.cacNumber,
         state: values.state,
       });
       if (isError) return;
