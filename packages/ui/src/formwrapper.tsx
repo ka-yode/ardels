@@ -1,4 +1,5 @@
 import { cn } from "@repo/ui/utils";
+import React from "react";
 
 export default function FormWrapper({
   children,
@@ -10,7 +11,7 @@ export default function FormWrapper({
   return (
     <div
       className={cn(
-        "flex h-[calc(100vh-6rem)] w-full flex-col items-center justify-center gap-4 rounded-lg bg-neutral-100 p-4 lg:h-full lg:w-1/2 lg:p-28",
+        "flex h-[calc(100vh-6rem)] w-full flex-col overflow-y-auto gap-4 rounded-lg bg-neutral-100 p-4 lg:h-full lg:w-1/2 lg:p-24",
         className
       )}
     >

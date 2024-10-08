@@ -1,59 +1,67 @@
 "use client";
-import { createBusinessInput } from ".";
+import { z } from "zod";
+import { EmployeeSignUpSchema } from "@repo/api/manageEmployees";
 import { FormControl, FormField, FormItem } from "@repo/ui/form";
 import { Input } from "@repo/ui/input";
-import { useFormContext } from "react-hook-form";
 import { useCheckString } from "@repo/ui/hooks";
 import PasswordChecks from "@repo/ui/passwordChecks";
+import { EmployeeAcceptInviteInput } from ".";
+import { useFormContext } from "react-hook-form";
 
-function CreateAccount() {
-  const form = useFormContext<createBusinessInput>();
+export default function EmployeeSignUpForm() {
+  const form = useFormContext<EmployeeAcceptInviteInput>();
 
   const passwordString = form.watch("password");
   const { hasLowercase, hasUppercase, stringCount, hasNumeric } =
     useCheckString(passwordString);
-
   return (
-    <div className="flex h-full flex-col gap-10 lg:gap-20">
-      <div className="mt-6 flex flex-col gap-4">
-        <p className="text-3xl">Join Our Platform</p>
-        <p className="text-black/50">
-          Sign up today to verify your employees, manage their information.
-        </p>
+    <div className="h-full w-full">
+      <div className="flex flex-col gap-4 mb-10">
+        <p className="text-2xl">Invite accepted</p>
+        <p className="text-black/50">Setup your details and password</p>
       </div>
-      <div className="flex flex-col gap-6">
+      <div className="space-y-6">
         <FormField
+          name="phoneNumber"
           control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input type="email" placeholder="Email Address" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input type="password" placeholder="Password" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="confirmedPassWord"
           render={({ field }) => (
             <FormItem>
               <FormControl>
                 <Input
+                  placeholder="Phone Number"
+                  {...field}
+                  className="w-full"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="password"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  placeholder="Password"
                   type="password"
+                  {...field}
+                  className="w-full"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="comnfirmPassword"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
                   placeholder="Confirm Password"
                   {...field}
+                  className="w-full"
                 />
               </FormControl>
             </FormItem>
@@ -69,5 +77,3 @@ function CreateAccount() {
     </div>
   );
 }
-
-export default CreateAccount;

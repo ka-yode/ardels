@@ -11,7 +11,7 @@
   "exports": {
     "./auth": "./src/auth.ts",
     "./manageUser": "./src/manageUser.ts",
-    "./manageEmployee": "./src/manageEmployees.ts"
+    "./manageEmployees": "./src/manageEmployees.ts"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",

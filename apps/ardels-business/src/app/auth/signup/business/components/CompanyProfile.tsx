@@ -13,7 +13,6 @@ import { SelectValue } from "@repo/ui/select";
 
 function CompanyProfile() {
   const form = useFormContext<createBusinessInput>();
-  const states = STATES;
   return (
     <div className="flex h-full w-full flex-col gap-8">
       <div>
@@ -78,7 +77,7 @@ function CompanyProfile() {
                     <SelectValue placeholder="State" />
                   </SelectTrigger>
                   <SelectContent>
-                    {states.map((state) => (
+                    {STATES.map((state) => (
                       <SelectItem key={state.alias} value={state.name}>
                         {state.name}
                       </SelectItem>

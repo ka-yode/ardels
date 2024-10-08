@@ -6,7 +6,7 @@ import { createBusinessInput, createBusinessSchema } from "./components";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@repo/ui/form";
 import { useMultiStep } from "@repo/ui/hooks";
-import FormWrapper from "../../components/formwrapper";
+import FormWrapper from "@repo/ui/formwrapper";
 import { ChevronLeft, CircleCheck } from "lucide-react";
 import VerifyEmail from "./components/VerifyEmail";
 import { Button } from "@repo/ui/button";
@@ -25,7 +25,6 @@ import {
 import { createcompanyProfile, sendEmployeeInvite } from "@repo/api/manageUser";
 import { toast } from "@repo/ui/use-toast";
 import { z } from "zod";
-import { cookies } from "next/headers";
 
 export default function BusinessSignUp() {
   const router = useRouter();
@@ -100,11 +99,11 @@ export default function BusinessSignUp() {
     3: ["employees"],
   };
 
-  const { step, currentStep, nextStep, prevStep, jumpToStep } = useMultiStep([
-    <CreateAccount key="1" />,
-    <VerifyEmail key="2" resendAction={resendOTPHandler} />,
-    <CompanyProfile key="3" />,
-    <AddEmployees key="4" />,
+  const { step, currentStep, nextStep } = useMultiStep([
+    <CreateAccount />,
+    <VerifyEmail resendAction={resendOTPHandler} />,
+    <CompanyProfile />,
+    <AddEmployees />,
   ]);
 
   const handleFormNext = async () => {
@@ -190,7 +189,7 @@ export default function BusinessSignUp() {
       </div>
       <FormWrapper className="justify-between overflow-auto lg:!py-5">
         {currentStep === 3 && (
-          <Link href="dashboard" className="text-green-500">
+          <Link href="/dashboard" className="text-green-500">
             Skip
           </Link>
         )}

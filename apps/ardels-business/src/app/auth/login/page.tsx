@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "@repo/ui/input";
-import FormWrapper from "../components/formwrapper";
+import FormWrapper from "../../../../../../packages/ui/src/formwrapper";
 import Link from "next/link";
 import { Button } from "@repo/ui/button";
 import { z } from "zod";

@@ -45,7 +45,7 @@ function AddEmployees() {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormControl className="">
+                    <FormControl>
                       <Input placeholder="Name" {...field} className="w-full" />
                     </FormControl>
                   </FormItem>

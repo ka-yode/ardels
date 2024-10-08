@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@repo/ui/toaster";
-import ReactQueryCleientProvider from "~/components/ReactQueryClientProvider";
+import ReactQueryClientProvider from "~/components/ReactQueryClientProvider";
 
 const brFirma = localFont({
   src: [
@@ -35,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ReactQueryCleientProvider>
+    <ReactQueryClientProvider>
       <html lang="en">
         <body
           className={`${brFirma.className} bg-white text-black`}
@@ -45,6 +45,6 @@ export default function RootLayout({
           <Toaster />
         </body>
       </html>
-    </ReactQueryCleientProvider>
+    </ReactQueryClientProvider>
   );
 }

@@ -2,7 +2,7 @@ import { CircleCheck } from "lucide-react";
 import { Button, buttonVariants } from "@repo/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import FormWrapper from "../components/formwrapper";
+import FormWrapper from "../../../../../../packages/ui/src/formwrapper";
 export default function SignUp() {
   const checks = [
     "Onboard all your organisation employees. ",

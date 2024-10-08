@@ -1,6 +1,5 @@
 "use client";
 import { useForm } from "react-hook-form";
-import FormWrapper from "../components/formwrapper";
 import { Form } from "@repo/ui/form";
 import { resetPasswordInput, resetPasswordSchema } from "./components";
 import FillEmail from "./components/FillEmail";
@@ -10,6 +9,7 @@ import VerifyResetEmail from "./components/verifyResetEmail";
 import ResetPasswordInputs from "./components/ResetPassword";
 import { ChevronLeft } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import FormWrapper from "@repo/ui/formwrapper";
 
 function ResetPassword() {
   const form = useForm<resetPasswordInput>({

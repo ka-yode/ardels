@@ -1,6 +1,8 @@
 {
   "name": "@repo/ui",
   "version": "0.0.0",
+  "private": true,
+  "type": "module",
   "sideEffects": [
     "**/*.css"
   ],
@@ -30,7 +32,10 @@
     "./table": "./src/table.tsx",
     "./toast": "./src/toast/toast.tsx",
     "./toaster": "./src/toast/toaster.tsx",
-    "./use-toast": "./src/toast/use-toast.tsx"
+    "./use-toast": "./src/toast/use-toast.tsx",
+    "./formwrapper": "./src/formwrapper.tsx",
+    "./passwordChecks": "./src/passwordChecks.tsx",
+    "./file-uploader": "./src/file-uploader.tsx"
   },
   "license": "MIT",
   "scripts": {
@@ -46,15 +51,17 @@
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-popover": "^1.1.2",
     "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.1",
     "class-variance-authority": "^0.7.0",
-    "react-hook-form": "^7.52.2",
     "clsx": "^2.1.1",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.414.0",
+    "react-day-picker": "^8.10.1",
+    "react-hook-form": "^7.52.2",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "zustand": "^4.5.4"
