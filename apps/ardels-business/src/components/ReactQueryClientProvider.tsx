@@ -17,7 +17,7 @@ export default function ReactQueryClientProvider({
     queryCache: new QueryCache({
       onError: (error, query) => {
         // do not show toast when checking if user is logged in
-        if (query?.queryKey[0] === "me") return;
+        if (query?.queryKey[0] === "GET_BUSINESS") return;
         toast({ title: error.message, variant: "destructive" });
       },
     }),

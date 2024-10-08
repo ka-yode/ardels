@@ -6,17 +6,13 @@ import { Button } from "@repo/ui/button";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { login } from "@repo/api/auth";
+import { login, loginSchema } from "@repo/api/auth";
 import { Form, FormControl, FormField, FormItem } from "@repo/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "@repo/ui/use-toast";
 import { useUser } from "~/utils/useUser";
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8, "Password is too short"),
-});
 type loginInputs = z.infer<typeof loginSchema>;
 function LoginPage() {
   useUser();
