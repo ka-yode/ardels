@@ -3,7 +3,7 @@ import EmployeeTable from "../components/employeeTable";
 import AddEmployeesDialog from "./components/addEmployeesDialog";
 import { useUser } from "~/utils/useUser";
 import { useQuery } from "@tanstack/react-query";
-import { getEmployeesByCompany } from "@repo/api/manageEmployees";
+import { getEmployeesByCompany } from "@repo/api/manageEmployee";
 
 function EmployeePage() {
   const { isLoading } = useUser();

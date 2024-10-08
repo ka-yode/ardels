@@ -36,7 +36,7 @@ function LoginPage() {
     await mutateAsync({ ...form.getValues() });
   };
   return (
-    <div className="flex h-full items-center justify-center p-4 lg:justify-between lg:p-8">
+    <div className="flex h-full items-center justify-center lg:justify-between">
       <section className="hidden w-1/3 text-white lg:block">
         <p className="text-2xl font-bold">
           Simplify Employee Management with ARDELS

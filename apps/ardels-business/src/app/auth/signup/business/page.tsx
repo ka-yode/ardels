@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "@repo/ui/form";
 import { useMultiStep } from "@repo/ui/hooks";
 import FormWrapper from "@repo/ui/formwrapper";
-import { ChevronLeft, CircleCheck } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 import VerifyEmail from "./components/VerifyEmail";
 import { Button } from "@repo/ui/button";
 import Link from "next/link";
