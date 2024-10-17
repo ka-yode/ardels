@@ -2,7 +2,7 @@ import { useFormContext } from "react-hook-form";
 import { EmployeeAcceptInviteInput } from ".";
 import { FormControl, FormField, FormItem } from "@repo/ui/form";
 import { Input } from "@repo/ui/input";
-import FileUploader from "@repo/ui/file-uploader";
+import { FileUploader } from "@repo/ui/file-uploader";
 import { useState } from "react";
 
 export default function GuarantorsInformationForm() {
@@ -116,7 +116,7 @@ export default function GuarantorsInformationForm() {
             </FormControl>
           )}
         />
-        <FileUploader onChange={handleG1PhotoChange} />
+
         <FormField
           name="guarantor_2_name"
           control={form.control}
@@ -205,7 +205,6 @@ export default function GuarantorsInformationForm() {
             </FormControl>
           )}
         />
-        <FileUploader onChange={handleG2PhotoChange} />
       </div>
     </div>
   );

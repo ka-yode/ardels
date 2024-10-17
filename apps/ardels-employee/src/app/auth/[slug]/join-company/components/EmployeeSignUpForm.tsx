@@ -1,6 +1,4 @@
 "use client";
-import { z } from "zod";
-import { EmployeeSignUpSchema } from "@repo/api/manageEmployee";
 import { FormControl, FormField, FormItem } from "@repo/ui/form";
 import { Input } from "@repo/ui/input";
 import { useCheckString } from "@repo/ui/hooks";

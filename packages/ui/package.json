@@ -35,7 +35,8 @@
     "./use-toast": "./src/toast/use-toast.tsx",
     "./formwrapper": "./src/formwrapper.tsx",
     "./passwordChecks": "./src/passwordChecks.tsx",
-    "./file-uploader": "./src/file-uploader.tsx"
+    "./file-uploader": "./src/file-uploader.tsx",
+    "./icons": "./src/icons/index.ts"
   },
   "license": "MIT",
   "scripts": {

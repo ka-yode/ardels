@@ -86,7 +86,7 @@ function UpdateProfile() {
                 control={form.control}
                 render={({ field }) => (
                   <FormControl>
-                    <Input {...field} placeholder="Email" />
+                    <Input {...field} placeholder="Email" disabled />
                   </FormControl>
                 )}
               />
@@ -129,6 +129,7 @@ function UpdateProfile() {
               variant="action"
               type="submit"
               className="w-full self-end lg:w-max"
+              loading={isPending}
             >
               Update Information
             </Button>

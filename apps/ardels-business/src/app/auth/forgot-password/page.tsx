@@ -10,6 +10,9 @@ import ResetPasswordInputs from "./components/ResetPassword";
 import { ChevronLeft } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormWrapper from "@repo/ui/formwrapper";
+import { useMutation } from "@tanstack/react-query";
+import { resetPasswordEmail } from "@repo/api/auth";
+import { toast } from "@repo/ui/use-toast";
 
 function ResetPassword() {
   const form = useForm<resetPasswordInput>({
@@ -17,10 +20,23 @@ function ResetPassword() {
     defaultValues: { email: "", otp: "", password: "", confirmPassword: "" },
   });
   const { step, nextStep, prevStep, currentStep } = useMultiStep([
-    <FillEmail key="0" />,
-    <VerifyResetEmail key="1" />,
-    <ResetPasswordInputs key="2" />,
+    <FillEmail />,
+    <VerifyResetEmail />,
+    <ResetPasswordInputs />,
   ]);
+  const {
+    mutateAsync: resetPasswordEmailAsync,
+    isError: resetPasswordEmailError,
+  } = useMutation({
+    mutationFn: resetPasswordEmail,
+    onSuccess: () => {
+      toast({
+        description:
+          "An OTP has been sent to this email, verify the OTP in the next stage",
+        variant: "success",
+      });
+    },
+  });
   type resetPasswordKeys = keyof resetPasswordInput;
   const validateFields: Record<number, resetPasswordKeys[]> = {
     0: ["email"],
@@ -28,11 +44,21 @@ function ResetPassword() {
     2: ["password", "confirmPassword"],
   };
   console.log(currentStep);
+  let isLoading = false;
   const handleformNext = async () => {
     const fieldsValid = await form.trigger(validateFields[currentStep], {
       shouldFocus: true,
     });
+    const formValues = form.getValues();
     if (!fieldsValid) return;
+    if (currentStep == 0) {
+      isLoading = true;
+      await resetPasswordEmailAsync({ email: formValues.email });
+      if (resetPasswordEmailError) return;
+      isLoading = false;
+    }
+    if (currentStep == 1) {
+    }
     nextStep();
   };
   return (

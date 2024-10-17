@@ -1,3 +1,4 @@
+"use client";
 import { useFormContext } from "react-hook-form";
 import { EmployeeAcceptInviteInput } from ".";
 import { FormControl, FormField, FormItem } from "@repo/ui/form";
@@ -9,20 +10,23 @@ import {
   SelectContent,
   SelectItem,
 } from "@repo/ui/select";
-import Image from "next/image";
 import { STATES } from "@repo/ui/location";
-import FileUploader from "@repo/ui/file-uploader";
+import { FileUploader } from "@repo/ui/file-uploader";
 import { useState } from "react";
 
 export default function EmployeeProfile() {
   const form = useFormContext<EmployeeAcceptInviteInput>();
-  const [resumeDataURL, setResumeDataURL] = useState("");
+  const [resumeDataURL, setResumeDataURL] = useState<File>();
   useState();
-  const handleResumeChange = (fileBaseURL: string) => {
-    setResumeDataURL(fileBaseURL);
-    form.setValue("resume", resumeDataURL);
-    form.clearErrors();
+  const handleResumeChange = (file: File) => {
+    setResumeDataURL(file);
   };
+  // const handleFileChange = (file: File) => {
+  //   if (!uploadURLData) return;
+  //   setImage(file);
+  //   form.setValue("imageID", uploadURLData.RequestUploadEventContent.imageID);
+  //   form.clearErrors();
+  // };
   const resumeString = form.watch("resume");
   console.log(resumeString);
   return (
@@ -121,11 +125,6 @@ export default function EmployeeProfile() {
               </FormItem>
             </FormControl>
           )}
-        />
-        <FileUploader
-          maxFileSize={400}
-          onChange={handleResumeChange}
-          placeholder="upload resume"
         />
       </div>
     </div>

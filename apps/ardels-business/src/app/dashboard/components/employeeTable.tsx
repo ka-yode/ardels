@@ -15,10 +15,18 @@ import {
   TableCell,
 } from "@repo/ui/table";
 import { VerificationStatus } from "@repo/ui/types";
-import { CircleSlash, Ellipsis, LinkIcon, User } from "lucide-react";
+import {
+  CircleSlash,
+  Ellipsis,
+  LinkIcon,
+  User,
+  UserRoundPlus,
+} from "lucide-react";
 import Link from "next/link";
 import AddEmployeesDialog from "../employees/components/addEmployeesDialog";
-import { employeeShape } from "@repo/api/manageEmployee";
+import { employeeShape, ResendInvite } from "@repo/api/manageEmployee";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "@repo/ui/use-toast";
 
 export interface EmployeeDataProps {
   name: string;
@@ -26,10 +34,16 @@ export interface EmployeeDataProps {
   jobTitle: string;
   status: "pending" | "success";
 }
+
 type EmployeeListProps = { employeesList?: employeeShape[] };
 function EmployeeTable({ employeesList }: EmployeeListProps) {
+  const { mutateAsync: resendInviteAsync } = useMutation({
+    mutationFn: ResendInvite,
+    onSuccess: () =>
+      toast({ description: "Invite resent successfully", variant: "success" }),
+  });
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <Table>
         <TableHeader>
           <TableRow>
@@ -65,7 +79,11 @@ function EmployeeTable({ employeesList }: EmployeeListProps) {
                           View Profile
                         </Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() =>
+                          resendInviteAsync({ invitedId: employee._id })
+                        }
+                      >
                         <LinkIcon size={16} />
                         Resend Link
                       </DropdownMenuItem>
@@ -80,14 +98,19 @@ function EmployeeTable({ employeesList }: EmployeeListProps) {
             ))}
         </TableBody>
       </Table>
-      {!employeesList && (
-        <div className="w-full flex flex-col items-center justify-center gap-4 p-4 z-20">
-          <p className="font-semibold">
-            You don&apos;t have any employee registered
-          </p>
-          <AddEmployeesDialog />
-        </div>
-      )}
+      {!employeesList ||
+        (employeesList.length == 0 && (
+          <div className="w-full flex-1 flex flex-col items-center justify-center gap-4 p-4">
+            <p className="font-semibold">
+              <UserRoundPlus
+                size={58}
+                className="text-action"
+                strokeWidth={1.5}
+              />
+            </p>
+            <AddEmployeesDialog />
+          </div>
+        ))}
     </div>
   );
 }

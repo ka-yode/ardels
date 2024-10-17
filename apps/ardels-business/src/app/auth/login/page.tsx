@@ -1,6 +1,5 @@
 "use client";
 import { Input } from "@repo/ui/input";
-import FormWrapper from "../../../../../../packages/ui/src/formwrapper";
 import Link from "next/link";
 import { Button } from "@repo/ui/button";
 import { z } from "zod";
@@ -12,20 +11,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "@repo/ui/use-toast";
 import { useUser } from "~/utils/useUser";
+import FormWrapper from "@repo/ui/formwrapper";
 
 type loginInputs = z.infer<typeof loginSchema>;
+
 function LoginPage() {
   useUser();
   const form = useForm<loginInputs>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
   });
-  const router = useRouter();
   const { mutateAsync, isPending } = useMutation({
     mutationFn: login,
     onSuccess: () => {
       toast({ description: "Successfully logged in", variant: "success" });
-      router.replace("/dashboard");
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });
@@ -47,7 +46,7 @@ function LoginPage() {
           process.
         </p>
       </section>
-      <FormWrapper>
+      <FormWrapper className="justify-center items-center">
         <div className="flex w-full flex-col items-start gap-2">
           <p className="text-xl lg:text-2xl">Manage your Workforce</p>
           <p className="text-sm font-light text-black/50">

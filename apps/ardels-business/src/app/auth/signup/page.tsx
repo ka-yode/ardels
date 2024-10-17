@@ -58,7 +58,7 @@ export default function SignUp() {
           />
         </div>
       </div>
-      <FormWrapper>
+      <FormWrapper className="items-center justify-center">
         <div className="flex w-full flex-col gap-4 rounded bg-white p-4 lg:p-8">
           <p>Sign Up as a Business to</p>
           <div className="flex flex-col items-start justify-start gap-4">

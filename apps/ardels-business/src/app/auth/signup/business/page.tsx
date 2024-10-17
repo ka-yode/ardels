@@ -25,6 +25,7 @@ import {
 import { createcompanyProfile, sendEmployeeInvite } from "@repo/api/manageUser";
 import { toast } from "@repo/ui/use-toast";
 import { z } from "zod";
+import { useState } from "react";
 
 export default function BusinessSignUp() {
   const router = useRouter();
@@ -105,15 +106,17 @@ export default function BusinessSignUp() {
     <CompanyProfile />,
     <AddEmployees />,
   ]);
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleFormNext = async () => {
     const fieldsValid = await form.trigger(validateFields[currentStep], {
       shouldFocus: true,
     });
+    setIsLoading(true);
     if (currentStep === 0) {
       const email = form.getValues("email");
       const password = form.getValues("password");
       const confirmPassword = form.getValues("confirmedPassWord");
+      setIsLoading(false);
       if (password !== confirmPassword) {
         form.setError("root", {
           type: "value",
@@ -131,6 +134,8 @@ export default function BusinessSignUp() {
       const userId = userProfileData.data.userId;
       const otp = form.getValues("otp");
       await verifyOtpAsync({ userId, otp });
+
+      setIsLoading(false);
       if (verifyOTPError) {
         toast({ description: "Incorrect OTP", variant: "destructive" });
         return;
@@ -147,6 +152,8 @@ export default function BusinessSignUp() {
         cacNumber: values.cacNumber,
         state: values.state,
       });
+
+      setIsLoading(false);
       if (isError) return;
     }
     if (currentStep === 3) {
@@ -154,6 +161,7 @@ export default function BusinessSignUp() {
       await sendInviteAsync(employees);
       if (inviteSentSuccessfully) router.replace("/dashboard");
     }
+    setIsLoading(false);
     if (!fieldsValid) return;
     nextStep();
   };
@@ -196,7 +204,11 @@ export default function BusinessSignUp() {
         <Form {...form}>{step}</Form>
         <div className="flex w-full flex-col gap-10">
           <div className="flex w-full flex-col gap-6">
-            <Button variant="action" onClick={handleFormNext}>
+            <Button
+              variant="action"
+              onClick={handleFormNext}
+              loading={isLoading}
+            >
               {currentStep === 0 ? "Sign up for free" : "Submit"}
             </Button>
             {currentStep === 0 && (

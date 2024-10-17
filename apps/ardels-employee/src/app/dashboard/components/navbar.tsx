@@ -1,19 +1,14 @@
 import { Button } from "@repo/ui/button";
 import { Bell, Menu } from "lucide-react";
-import MobileMenu from "./mobileMenu";
 import { useSideBarState } from "@repo/ui/hooks";
+import MobileMenu from "./mobileMenu";
 
-interface AdminNavbarProps {
+interface NavbarProps {
   location: string;
-  companyName?: string;
 }
-export default function AdminNavbar({
-  location,
-  companyName = "Ardels",
-}: AdminNavbarProps) {
+export default function Navbar({ location }: NavbarProps) {
   const showSideBar = useSideBarState((state) => state.isVisible);
   const toggleSideBar = useSideBarState((state) => state.toggleSideBar);
-  const companyFirstLetter = companyName[0];
   return (
     <div className="fixed z-20 flex h-16 w-full items-center justify-between bg-white p-4 lg:w-[calc(100vw-15rem)]">
       <p className="hidden text-xl font-semibold lg:block">{location}</p>
@@ -28,9 +23,9 @@ export default function AdminNavbar({
         <Bell className="hidden lg:block" />
         <div className="flex items-center gap-3">
           <div className="flex size-10 items-center justify-center rounded-full bg-green-500 text-lg font-bold text-white">
-            {companyFirstLetter}
+            4
           </div>
-          <p className="hidden font-semibold lg:block">{companyName}</p>
+          <p className="hidden font-semibold lg:block">44bukaz</p>
         </div>
       </div>
       {showSideBar && <MobileMenu />}

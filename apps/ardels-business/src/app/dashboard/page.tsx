@@ -2,50 +2,47 @@
 import { cn } from "@repo/ui/utils";
 import { Button, buttonVariants } from "@repo/ui/button";
 import { CircleSlash, CircleX, Users } from "lucide-react";
-import { title } from "process";
 
-import EmployeeTable, { EmployeeDataProps } from "./components/employeeTable";
-import { VerificationStatus } from "@repo/ui/types";
+import EmployeeTable from "./components/employeeTable";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { getEmployeesByCompany } from "@repo/api/manageEmployee";
 import { useUser } from "~/utils/useUser";
-import { Suspense } from "react";
 
 export default function DashboardPage() {
-  const { data, isLoading, isError } = useUser();
-  const employeeData: EmployeeDataProps[] = [
-    // {
-    //   name: "Sunday Moses",
-    //   phoneNumber: "08104359615",
-    //   jobTitle: "Kitchen Assistant",
-    //   status: VerificationStatus.FAILED_ADDRESS,
-    // },
-    // {
-    //   name: "Sunday Moses",
-    //   phoneNumber: "08104359615",
-    //   jobTitle: "Kitchen Assistant",
-    //   status: VerificationStatus.IN_VERIFICATION,
-    // },
-    // {
-    //   name: "Sunday Moses",
-    //   phoneNumber: "08104359615",
-    //   jobTitle: "Kitchen Assistant",
-    //   status: VerificationStatus.FAILED_GUARANTOR,
-    // },
-    // {
-    //   name: "Sunday Moses",
-    //   phoneNumber: "08104359615",
-    //   jobTitle: "Kitchen Assistant",
-    //   status: VerificationStatus.NOT_RESPONDED,
-    // },
-    // {
-    //   name: "Sunday Moses",
-    //   phoneNumber: "08104359615",
-    //   jobTitle: "Kitchen Assistant",
-    //   status: VerificationStatus.VERIFIED,
-    // },
-  ];
+  const { data, isError } = useUser();
+  // const employeeData: EmployeeDataProps[] = [
+  //   // {
+  //   //   name: "Sunday Moses",
+  //   //   phoneNumber: "08104359615",
+  //   //   jobTitle: "Kitchen Assistant",
+  //   //   status: VerificationStatus.FAILED_ADDRESS,
+  //   // },
+  //   // {
+  //   //   name: "Sunday Moses",
+  //   //   phoneNumber: "08104359615",
+  //   //   jobTitle: "Kitchen Assistant",
+  //   //   status: VerificationStatus.IN_VERIFICATION,
+  //   // },
+  //   // {
+  //   //   name: "Sunday Moses",
+  //   //   phoneNumber: "08104359615",
+  //   //   jobTitle: "Kitchen Assistant",
+  //   //   status: VerificationStatus.FAILED_GUARANTOR,
+  //   // },
+  //   // {
+  //   //   name: "Sunday Moses",
+  //   //   phoneNumber: "08104359615",
+  //   //   jobTitle: "Kitchen Assistant",
+  //   //   status: VerificationStatus.NOT_RESPONDED,
+  //   // },
+  //   // {
+  //   //   name: "Sunday Moses",
+  //   //   phoneNumber: "08104359615",
+  //   //   jobTitle: "Kitchen Assistant",
+  //   //   status: VerificationStatus.VERIFIED,
+  //   // },
+  // ];
   const { data: employeesData } = useQuery({
     queryFn: getEmployeesByCompany,
     queryKey: ["get_employees"],
@@ -59,11 +56,9 @@ export default function DashboardPage() {
       </div>
     );
   }
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-10 h-full">
       <div className="flex flex-col gap-4 lg:flex-row">
         <div className="flex flex-col gap-6">
           <p className="text-3xl font-semibold">
@@ -103,7 +98,7 @@ export default function DashboardPage() {
           />
         </div>
       </div>
-      <div className="rounded-md bg-white p-4 lg:p-6">
+      <div className="rounded-md bg-white p-4 lg:p-6 flex-1">
         <div className="mb-3 flex items-center justify-between">
           <p className="font-semibold">Employees Summary</p>
           <Link

@@ -40,6 +40,11 @@ export const EmployeeSignUp = async ({
   return data;
 };
 
+export const ResendInvite = async ({ invitedId }: { invitedId: string }) => {
+  const data = await f("POST", "resend-invite", { invitedId });
+  return data;
+};
+
 export const EmployeeProfileSchema = z.object({
   name: z.string(),
   companyId: z.string(),
