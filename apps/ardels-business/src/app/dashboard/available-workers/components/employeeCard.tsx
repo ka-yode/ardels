@@ -6,11 +6,13 @@ export interface EmployeeCardProps {
   employeeImage: string;
   employeeName: string;
   employeeRole: string;
+  employeeRating: number;
 }
 function EmployeeCard({
   employeeImage,
   employeeName,
   employeeRole,
+  employeeRating,
 }: EmployeeCardProps) {
   return (
     <Link
@@ -18,7 +20,7 @@ function EmployeeCard({
       className="flex flex-col items-center gap-4 rounded-md bg-neutral-50 p-4 shadow"
     >
       <Image
-        src={employeeImage}
+        src={employeeImage ?? "/man1.png"}
         alt=""
         width={50}
         height={50}
@@ -28,7 +30,7 @@ function EmployeeCard({
       <div className="rounded-full bg-neutral-200 p-2 text-xs shadow">
         <p>{employeeRole}</p>
       </div>
-      <StarRate userRating={3} />
+      <StarRate userRating={employeeRating} />
     </Link>
   );
 }

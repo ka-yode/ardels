@@ -21,10 +21,12 @@ function LoginPage() {
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
   });
+  const router = useRouter();
   const { mutateAsync, isPending } = useMutation({
     mutationFn: login,
     onSuccess: () => {
       toast({ description: "Successfully logged in", variant: "success" });
+      router.replace("/dashboard");
     },
     onError: (error) => {
       toast({ description: error.message, variant: "destructive" });

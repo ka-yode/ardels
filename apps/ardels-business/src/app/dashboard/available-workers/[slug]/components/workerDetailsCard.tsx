@@ -1,15 +1,17 @@
 import Image from "next/image";
 import { EmployeeCardProps } from "../../components/employeeCard";
-interface EmployeeDetailsCardProps extends EmployeeCardProps {
+interface WorkerDetailsProps {
+  employeeImage: string;
+  employeeName: string;
+  employeeRole: string;
   phoneNumber: string;
 }
-
 function WorkerDetailsCard({
   employeeImage,
   employeeName,
   employeeRole,
   phoneNumber,
-}: EmployeeDetailsCardProps) {
+}: WorkerDetailsProps) {
   return (
     <div className="flex w-full flex-col items-center gap-4 rounded-lg bg-white px-16 py-4 text-center shadow md:w-max">
       <Image

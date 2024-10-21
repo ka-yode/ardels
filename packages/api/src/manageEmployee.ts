@@ -65,7 +65,7 @@ export const createEmployeeProfile = async ({
   ...values
 }: z.infer<typeof EmployeeProfileSchema>) => {
   const data = (await f("POST", "employee-create-profile", { ...values })) as {
-    message: "Employee Profile Created Successfully";
+    message: string;
     data: {
       firstName: string;
       lastName: string;
@@ -124,5 +124,53 @@ export const addGuarantors = async ({
   ...values
 }: z.infer<typeof AddGuarantorsSchema>) => {
   const data = f("POST", "employee-create-guarantor-profile", { ...values });
+  return data;
+};
+
+export const resendInvite = async ({ invitedId }: { invitedId: string }) => {
+  const data = f("POST", "resend-invite", { invitedId });
+  return data;
+};
+
+export const RemoveEmployeeSchema = z.object({
+  invitedId: z.string(),
+  comment: z.string(),
+  rating: z.number().min(1).max(5),
+});
+
+export const removeEmployee = async ({
+  ...values
+}: z.infer<typeof RemoveEmployeeSchema>) => {
+  const data = f("POST", "remove-employee", { ...values });
+  return data;
+};
+export interface AvailableEmployeesCardProps {
+  _id: string;
+  inviteId: { employee: { name: string; role: string; passportPhoto: string } };
+  rating: number;
+}
+export const getAllAvailableEmployees = async () => {
+  const data = (await f(
+    "GET",
+    "getAllAvailableEmployees"
+  )) as AvailableEmployeesCardProps[];
+  return data;
+};
+
+export const getEmployeeDetails = async ({
+  employeeId,
+}: {
+  employeeId: string;
+}) => {
+  const data = await f("GET", `getEmployee/${employeeId}`);
+  return data;
+};
+
+export const getAvailableEmployeeDetails = async ({
+  employeeInviteId,
+}: {
+  employeeInviteId: string;
+}) => {
+  const data = await f("GET", `getEmployee/${employeeInviteId}`);
   return data;
 };
