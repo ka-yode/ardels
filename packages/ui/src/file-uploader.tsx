@@ -52,7 +52,7 @@ export default function FileUploader({
     // if (!file) {
     //   return;
     // }
-    const uploadedFile = e.target.files[0];
+    const uploadedFile = e.target?.files[0];
     if (uploadedFile.size > maxFileSize) {
       toast({
         description: `File size should be less than ${maxFileSize / (1024 * 1024)}MB`,
