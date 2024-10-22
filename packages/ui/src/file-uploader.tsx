@@ -52,26 +52,22 @@ export default function FileUploader({
     // if (!file) {
     //   return;
     // }
-    if (e.target.files[0]) {
-      const uploadedFile = e.target.files[0];
-      if (uploadedFile.size > maxFileSize) {
-        toast({
-          description: `File size should be less than ${maxFileSize / (1024 * 1024)}MB`,
-          variant: "destructive",
-        });
-        return;
-      }
-      // Convert the file to base64
-      const imageToBase64 = await toBase64(uploadedFile as File);
-
-      setBase64(imageToBase64 as string);
-      console.log(imageToBase64);
-      await onChange(imageToBase64 as string);
-      setBase64(null);
-    } else {
-      toast({ description: "No file was detected", variant: "destructive" });
+    if (!e.target.files) return;
+    const uploadedFile = e.target.files[0];
+    if (uploadedFile.size > maxFileSize) {
+      toast({
+        description: `File size should be less than ${maxFileSize / (1024 * 1024)}MB`,
+        variant: "destructive",
+      });
       return;
     }
+    // Convert the file to base64
+    const imageToBase64 = await toBase64(uploadedFile as File);
+
+    setBase64(imageToBase64 as string);
+    console.log(imageToBase64);
+    await onChange(imageToBase64 as string);
+    setBase64(null);
   };
 
   // On click, clear the input value
