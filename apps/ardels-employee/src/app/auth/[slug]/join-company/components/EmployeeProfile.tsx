@@ -11,7 +11,7 @@ import {
   SelectItem,
 } from "@repo/ui/select";
 import { STATES } from "@repo/ui/location";
-import { FileUploader } from "@repo/ui/file-uploader";
+import FileUploader from "@repo/ui/file-uploader";
 import { useState } from "react";
 
 export default function EmployeeProfile() {

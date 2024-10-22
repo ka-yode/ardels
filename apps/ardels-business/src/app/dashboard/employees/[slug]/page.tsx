@@ -17,6 +17,7 @@ function EmployeeDetails() {
         phoneNumber={employeeDetails.number}
         employeeImage={employeeDetails.image}
         status={employeeDetails.status}
+        employeeRating={5}
         employeeRole={employeeDetails.role}
       />
       <PersonalDetails />
